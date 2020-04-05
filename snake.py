@@ -1,15 +1,35 @@
 import time, random
 import pygame
 
-BLOCK_SIZE = 20
+BLOCK_SIZE = 20             
 FPS = 15
-
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 155, 0)
 
 clock = pygame.time.Clock()
+
+DISPLAY_WIDTH = 800
+DISPLAY_HEIGHT = 600
+
+def singleplayer(difficulty):
+    global FPS
+    
+    if difficulty is "easy":
+        FPS = 15
+    elif difficulty is "medium":
+        FPS = 25
+    elif difficulty is "hard":
+        FPS = 40
+    else: # difficulty is nightmare
+        FPS = 60
+        
+    pygame.init()
+    gameDisplay = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    pygame.display.set_caption("Slither")
+    gameLoop(False, gameDisplay)
+
 
 def gameLoop(gamerunvalue, gameDisplay):
     gameOver = gamerunvalue
@@ -93,12 +113,3 @@ def gameLoop(gamerunvalue, gameDisplay):
 
         clock.tick(FPS)
     return score
-
-
-
-DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 600
-pygame.init()
-gameDisplay = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
-pygame.display.set_caption("Slither")
-gameLoop(False, gameDisplay)
