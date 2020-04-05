@@ -1,2 +1,2 @@
-# CCT211NavLennon
-CCT211 Final Project Nav Lennon
+# CCT211Snake
+CCT211 Final Project Snake
