@@ -12,14 +12,14 @@ MENU TASKS - Keren
 
 DIFFERENT MODES
 	SINGLEPLAYER MODE - Hill
-		- Powerups (*harder feature*)
-			- Bad apple (Lose a snake piece)
-			- Double apples (Two apples spawn, wait for both to be eaten before spawning 2)
-			- Slice (Snake length cut in half)
-			- Golden apple (Snake gets +2 length) 
-		- Easy (FPS = 15)
-		- Medium (FPS = 25)
-		- Hard (Max FPS = 40)
+		* Powerups
+			* Bad apple (Two apples spawn, one regular and one purple which -1 snake length)
+			* Double apples (Two apples spawn, wait for both to be eaten before spawning 2) x
+			* Slice (Two apples spawn, one regular and one silver which snake length//2)
+			* Golden apple (Snake gets +2 length) 
+		* Easy (FPS = 15)
+		* Medium (FPS = 25)
+		* Hard (Max FPS = 40)
 		- Nightmare (FPS = 60 + Bad apples lose a snake piece)
 
 	TIMED TRIALS - Lennon
