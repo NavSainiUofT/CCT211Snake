@@ -32,6 +32,7 @@ DIFFERENT MODES
 	MULTIPLAYER MODE - Nav
 		- Multiplayer Class (different py file)
 		- Powerups (*harder feature*)
+			- Same as singleplayer
 		- Easy (same as singleplayer)
 		- Medium (same as singleplayer)
 		- Hard (same as singleplayer)
@@ -48,9 +49,11 @@ THEMES - Keren
 	- Dark mode (variable changer)
 	- Tron/Neon Mode (variable changer)
 
-SCORE/SCOREBOARD - Nav/Len
+SCORE/SCOREBOARD - Nav & Len
 	- Score(exist on all)
 	- Pickling (review this from 111 ask nav if u don’t know)
+
+---------------------------------------------------------
 
 
 
