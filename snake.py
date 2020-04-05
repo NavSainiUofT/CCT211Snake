@@ -1,21 +1,33 @@
 import time, random
 import pygame
 
-BLOCK_SIZE = 20             
+# DEFAULT VALUES
+BLOCK_SIZE = 20
 FPS = 15
+
+# COLOURS
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 155, 0)
 
+# CLOCK
 clock = pygame.time.Clock()
 
+# DISPLAY DIMENSIONS
 DISPLAY_WIDTH = 800
 DISPLAY_HEIGHT = 600
 
-def singleplayer(difficulty):
+
+def singleplayer(difficulty: str):
+    """
+    Initializes the gameLoop with the necessary parameters as well as sets the
+    difficulty
+    :param difficulty:
+    :return:
+    """
     global FPS
-    
+
     if difficulty is "easy":
         FPS = 15
     elif difficulty is "medium":
@@ -24,14 +36,20 @@ def singleplayer(difficulty):
         FPS = 40
     else: # difficulty is nightmare
         FPS = 60
-        
+
     pygame.init()
     gameDisplay = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     pygame.display.set_caption("Slither")
     gameLoop(False, gameDisplay)
 
 
-def gameLoop(gamerunvalue, gameDisplay):
+def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
+    """
+    Runs the gameloop to display the game
+    :param gamerunvalue:
+    :param gameDisplay:
+    :return: exit status 0 on quit or score on gameover
+    """
     gameOver = gamerunvalue
 
     lead_x = DISPLAY_WIDTH / 2  # x and y locations for the head of the snake
@@ -73,13 +91,15 @@ def gameLoop(gamerunvalue, gameDisplay):
         lead_x += lead_dx
         lead_y += lead_dy
 
-        if lead_x >= DISPLAY_WIDTH or lead_x < 0 or lead_y >= DISPLAY_HEIGHT or lead_y < 0:
+        if lead_x >= DISPLAY_WIDTH or lead_x < 0 or lead_y >= DISPLAY_HEIGHT or\
+                lead_y < 0:
             gameOver = True
 
         gameDisplay.fill(WHITE)
 
         appleThickness = 30
-        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, appleThickness, appleThickness])
+        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                            appleThickness, appleThickness])
 
         # store the position of the front of the snake in an empty list
         snakeHead = []
