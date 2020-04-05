@@ -1,14 +1,57 @@
 CCT211 Project Notes:
 Use this list as a reference of work check off what is done.
+---------------------------------------------------------
 April 4th 2020
-- Menu switches between game modes (different difficulty)
-Main Navigation between game modes. It chooses from the game mode files based on what the user selects.
--  If the user selects a different game mode while playing, the game pauses and a pop up askyesno tkinter object pops up
-- Multiplayer Class (different py file)
-- Dark Mode and Light Mode (variable changer)
-- Score(exist on all)
-- Powerups (*harder feature*)
-- Pickling (review this from 111 ask nav if u don’t know)
-- Timed Trials (different py file)
-- 
+---------------------------------------------------------
+MENU TASKS - Keren
+	- Design menu based on the google doc
+	- Leave functionality until other modes completed
+	- Menu switches between game modes (different difficulty)
+		- Main Navigation between game modes. It chooses from the game mode files based on what the user selects.
+	-  If the user selects a different game mode while playing, the game pauses and a pop up askyesno tkinter object pops up
+
+DIFFERENT MODES
+	SINGLEPLAYER MODE - Hill
+		- Powerups (*harder feature*)
+			- Bad apple (Lose a snake piece)
+			- Double apples (Two apples spawn, wait for both to be eaten before spawning 2)
+			- Slice (Snake length cut in half)
+			- Golden apple (Snake gets +2 length) 
+		- Easy (FPS = 15)
+		- Medium (FPS = 25)
+		- Hard (Max FPS = 40)
+		- Nightmare (FPS = 60 + Bad apples lose a snake piece)
+
+	TIMED TRIALS - Lennon
+		- Timed Trials (different py file)
+		- Save score
+		- 30 seconds
+		- 1 minute
+		- 1 minute 30 seconds
+
+	MULTIPLAYER MODE - Nav
+		- Multiplayer Class (different py file)
+		- Powerups (*harder feature*)
+		- Easy (same as singleplayer)
+		- Medium (same as singleplayer)
+		- Hard (same as singleplayer)
+		- Nightmare (same as singleplayer)
+
+	STORYMODE - ???
+		- Only if we have time
+
+	TUTORIAL - ??? 
+		- Only if we have time
+
+THEMES - Keren
+	- Light Mode (variable changer)
+	- Dark mode (variable changer)
+	- Tron/Neon Mode (variable changer)
+
+SCORE/SCOREBOARD - Nav/Len
+	- Score(exist on all)
+	- Pickling (review this from 111 ask nav if u don’t know)
+
+
+
 

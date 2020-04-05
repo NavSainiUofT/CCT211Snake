@@ -2,7 +2,7 @@ import time, random
 import pygame
 
 BLOCK_SIZE = 20
-FPS =15
+FPS = 15
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
