@@ -1,0 +1,14 @@
+CCT211 Project Notes:
+Use this list as a reference of work check off what is done.
+April 4th 2020
+- Menu switches between game modes (different difficulty)
+Main Navigation between game modes. It chooses from the game mode files based on what the user selects.
+-  If the user selects a different game mode while playing, the game pauses and a pop up askyesno tkinter object pops up
+- Multiplayer Class (different py file)
+- Dark Mode and Light Mode (variable changer)
+- Score(exist on all)
+- Powerups (*harder feature*)
+- Pickling (review this from 111 ask nav if u don’t know)
+- Timed Trials (different py file)
+- 
+
