@@ -2,22 +2,24 @@ import time, random
 import pygame
 
 BLOCK_SIZE = 20
-FPS =15
+FPS = 15
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 155, 0)
+BLUE = (0, 0, 255)
 
 clock = pygame.time.Clock()
+
 
 def gameLoop(gamerunvalue, gameDisplay):
     gameOver = gamerunvalue
 
-    snake_1_head_x = DISPLAY_WIDTH / 2  # x and y locations for the head of the snake
-    snake_1_head_y = DISPLAY_HEIGHT / 2
-    snake_2_head_x = DISPLAY_WIDTH / 2  # x and y locations for the head of the snake
-    snake_2_head_y = DISPLAY_HEIGHT / 2
+    snake_1_head_x = (DISPLAY_WIDTH / 2) + 10  # x and y locations for the head of the snake
+    snake_1_head_y = (DISPLAY_HEIGHT / 2) + 10
+    snake_2_head_x = (DISPLAY_WIDTH / 2) - 10  # x and y locations for the head of the snake
+    snake_2_head_y = (DISPLAY_HEIGHT / 2) - 10
 
     lead_dx_1 = BLOCK_SIZE
     lead_dy_1 = 0
@@ -83,16 +85,30 @@ def gameLoop(gamerunvalue, gameDisplay):
         snake_2_head_x += lead_dx_2
         snake_2_head_y += lead_dy_2
 
+        gameDisplay.fill(WHITE)
+
+        appleThickness = 30
+        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, appleThickness, appleThickness])
+
+        for xy in snakelist1:
+            pygame.draw.rect(gameDisplay, GREEN, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
+
+        for xy in snakelist2:
+            pygame.draw.rect(gameDisplay, BLUE, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
+            
+        for xy in snakelist1[1:]:
+            if snake_2_head == xy:
+                gameOver = True
+
+        for xy in snakelist2[1:]:
+            if snake_1_head == xy:
+                gameOver = True
+
         if snake_1_head_x >= DISPLAY_WIDTH or snake_1_head_x < 0 or snake_1_head_y >= DISPLAY_HEIGHT or snake_1_head_y < 0:
             gameOver = True
 
         if snake_2_head_x >= DISPLAY_WIDTH or snake_2_head_x < 0 or snake_2_head_y >= DISPLAY_HEIGHT or snake_2_head_y < 0:
             gameOver = True
-
-        gameDisplay.fill(WHITE)
-
-        appleThickness = 30
-        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, appleThickness, appleThickness])
 
         # store the position of the front of the snake in an empty list
         snake_1_head = []
@@ -124,14 +140,6 @@ def gameLoop(gamerunvalue, gameDisplay):
             if eachSegment == snake_2_head:
                 gameOver = True
 
-        for xy in snakelist1:
-            pygame.draw.rect(gameDisplay, GREEN, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
-
-        for xy in snakelist2:
-            pygame.draw.rect(gameDisplay, GREEN, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
-
-
-        pygame.display.update()
         if randAppleX < snake_1_head_x < randAppleX + appleThickness or snake_1_head_x + BLOCK_SIZE > randAppleX and snake_1_head_x + BLOCK_SIZE < randAppleX + appleThickness:
             if randAppleY < snake_1_head_y < randAppleY + appleThickness or snake_1_head_y + BLOCK_SIZE > randAppleY and snake_1_head_y + BLOCK_SIZE < randAppleY + appleThickness:
                 randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
@@ -144,10 +152,9 @@ def gameLoop(gamerunvalue, gameDisplay):
                 randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
                 snake_2_length += 1
                 score += 1
-
+        pygame.display.update()
         clock.tick(FPS)
     return score
-
 
 
 DISPLAY_WIDTH = 800
