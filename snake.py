@@ -10,13 +10,50 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 155, 0)
-
+PURPLE = (138,43,226)
+SILVER = (192,192,192)
+GOLD = (255,255,0)
 # CLOCK
 clock = pygame.time.Clock()
 
 # DISPLAY DIMENSIONS
 DISPLAY_WIDTH = 800
 DISPLAY_HEIGHT = 600
+
+# POWERUPS ARRAY
+POWERUPS = ["normal"]
+
+def add_powerup(powerup: str):
+    """
+    Add a powerup to the game
+    :param powerup:
+    :return:
+    """
+    global POWERUPS
+    POWERUPS.append(powerup)
+
+
+def remove_powerup(powerup: str):
+    """
+    Remove a powerup from the game
+    :param powerup:
+    :return:
+    """
+    global POWERUPS
+    POWERUPS.remove(powerup)
+
+
+def doPowerup(powerup: str, snakeLen):
+    if powerup is "normal":
+        return snakeLen + 1
+    elif powerup is "bad":
+        return snakeLen - 1
+    elif powerup is "slice":
+        return snakeLen//2
+    elif powerup is "golden":
+        return snakeLen+2
+    elif powerup is "double":
+        return snakeLen + 1
 
 
 def singleplayer(difficulty: str):
@@ -50,6 +87,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
     :param gameDisplay:
     :return: exit status 0 on quit or score on gameover
     """
+    global POWERUPS
     gameOver = gamerunvalue
 
     lead_x = DISPLAY_WIDTH / 2  # x and y locations for the head of the snake
@@ -57,11 +95,23 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
     lead_dx = BLOCK_SIZE
     lead_dy = 0
     direction = 'right'
-    randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
-    randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+
     snakeList = []
     snakeLength = 1
     score = 1
+
+    # Apple coordinates
+    randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+    randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+    randDoubleAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+    randDoubleAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+    
+    # Store current powerup
+    current_powerup = None
+
+    # Keep track of powers with nultiple apples on screen
+    apple = False
+    apple2 = False
 
     while gameOver is not True:
 
@@ -97,9 +147,80 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
 
         gameDisplay.fill(WHITE)
 
-        appleThickness = 30
-        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
-                                            appleThickness, appleThickness])
+        # POWERUP SPAWN IN --------------------------------------------------------------
+        if current_powerup is None:
+            random_powerup = POWERUPS[random.randint(0, len(POWERUPS)-1)]
+            if random_powerup == "normal":
+                current_powerup = "normal"
+                appleThickness = 30
+                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                    appleThickness, appleThickness])
+            elif random_powerup is "bad":
+                current_powerup = "bad"
+                appleThickness = 30
+                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                    appleThickness, appleThickness])
+                pygame.draw.rect(gameDisplay, PURPLE, [randDoubleAppleX, randDoubleAppleY,
+                                                    appleThickness, appleThickness])
+            elif random_powerup is "slice":
+                current_powerup = "slice"
+                appleThickness = 30
+                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                    appleThickness, appleThickness])
+                pygame.draw.rect(gameDisplay, SILVER, [randDoubleAppleX, randDoubleAppleY,
+                                                    appleThickness, appleThickness])
+            elif random_powerup is "golden":
+                current_powerup = "golden"
+                appleThickness = 30
+                pygame.draw.rect(gameDisplay, GOLD, [randAppleX, randAppleY,
+                                                    appleThickness, appleThickness])
+            elif random_powerup is "double":
+                current_powerup = "double"
+                appleThickness = 30
+                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                    appleThickness, appleThickness])
+                pygame.draw.rect(gameDisplay, RED, [randDoubleAppleX, randDoubleAppleY,
+                                                    appleThickness, appleThickness])
+
+        # POWERUP CONTINUALLY DISPLAY --------------------------------------------------
+        if current_powerup is "normal":
+            appleThickness = 30
+            pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                appleThickness, appleThickness])
+        elif current_powerup is "bad":
+            appleThickness = 30
+            # If apple still on board
+            if not apple:
+                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                    appleThickness, appleThickness])
+            # If apple2 still on board
+            if not apple2:
+                pygame.draw.rect(gameDisplay, PURPLE, [randDoubleAppleX, randDoubleAppleY,
+                                                    appleThickness, appleThickness])
+        elif current_powerup is "slice":
+            appleThickness = 30
+            # If apple still on board
+            if not apple:
+                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                    appleThickness, appleThickness])
+            # If apple2 still on board
+            if not apple2:
+                pygame.draw.rect(gameDisplay, SILVER, [randDoubleAppleX, randDoubleAppleY,
+                                                    appleThickness, appleThickness])
+        elif current_powerup is "golden":
+            appleThickness = 30
+            pygame.draw.rect(gameDisplay, GOLD, [randAppleX, randAppleY,
+                                                appleThickness, appleThickness])
+        elif current_powerup is "double":
+                appleThickness = 30
+                # If apple still on board
+                if not apple:
+                    pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                                                        appleThickness, appleThickness])
+                # If apple2 still on board
+                if not apple2:
+                    pygame.draw.rect(gameDisplay, RED, [randDoubleAppleX, randDoubleAppleY,
+                                                        appleThickness, appleThickness])
 
         # store the position of the front of the snake in an empty list
         snakeHead = []
@@ -112,7 +233,8 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
         # if the size of the snake list is bigger then the length the snake is supposed to be,
         # delete the 'end' of the snake
         if len(snakeList) > snakeLength:
-            del snakeList[0]
+            while len(snakeList) > snakeLength:
+                del snakeList[0]
 
         # check if snake collides with itself
         for eachSegment in snakeList[:-1]:
@@ -122,16 +244,91 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
         for xy in snakeList:
             pygame.draw.rect(gameDisplay, GREEN, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
 
-
         pygame.display.update()
-        if randAppleX < lead_x < randAppleX + appleThickness or lead_x + BLOCK_SIZE > randAppleX and lead_x + BLOCK_SIZE < randAppleX + appleThickness:
-            if randAppleY < lead_y < randAppleY + appleThickness or lead_y + BLOCK_SIZE > randAppleY and lead_y + BLOCK_SIZE < randAppleY + appleThickness:
-                randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
-                randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
-                snakeLength += 1
-                score += 1
+
+        # Handling when snake eats an apple
+        # Double powerup
+        if current_powerup is "double":
+            # First apple
+            if randAppleX < lead_x < randAppleX + appleThickness or lead_x + BLOCK_SIZE > randAppleX and lead_x + BLOCK_SIZE < randAppleX + appleThickness:
+                if randAppleY < lead_y < randAppleY + appleThickness or lead_y + BLOCK_SIZE > randAppleY and lead_y + BLOCK_SIZE < randAppleY + appleThickness:
+                    randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+                    randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+                    snakeLength = doPowerup(current_powerup, snakeLength)
+                    apple = True
+
+            # Second apple
+            if randDoubleAppleX < lead_x < randDoubleAppleX + appleThickness or lead_x + BLOCK_SIZE > randDoubleAppleX and lead_x + BLOCK_SIZE < randDoubleAppleX + appleThickness:
+                if randDoubleAppleY < lead_y < randDoubleAppleY + appleThickness or lead_y + BLOCK_SIZE > randDoubleAppleY and lead_y + BLOCK_SIZE < randDoubleAppleY + appleThickness:
+                    randDoubleAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+                    randDoubleAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+                    snakeLength = doPowerup(current_powerup, snakeLength)
+                    apple2 = True
+
+            # Reset once both are eaten      
+            if apple and apple2:
+                apple = False
+                apple2 = False
+                current_powerup = None
+                score = snakeLength
+
+        # Power downs
+        elif current_powerup is "bad" or current_powerup is "slice":
+            # If snake eats the red one
+            if randAppleX < lead_x < randAppleX + appleThickness or lead_x + BLOCK_SIZE > randAppleX and lead_x + BLOCK_SIZE < randAppleX + appleThickness:
+                if randAppleY < lead_y < randAppleY + appleThickness or lead_y + BLOCK_SIZE > randAppleY and lead_y + BLOCK_SIZE < randAppleY + appleThickness:
+                    randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+                    randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+                    snakeLength = doPowerup("normal", snakeLength)
+                    apple = True
+
+            # If snake eats the power down     
+            if randDoubleAppleX < lead_x < randDoubleAppleX + appleThickness or lead_x + BLOCK_SIZE > randDoubleAppleX and lead_x + BLOCK_SIZE < randDoubleAppleX + appleThickness:
+                if randDoubleAppleY < lead_y < randDoubleAppleY + appleThickness or lead_y + BLOCK_SIZE > randDoubleAppleY and lead_y + BLOCK_SIZE < randDoubleAppleY + appleThickness:
+                    randDoubleAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+                    randDoubleAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+                    snakeLength = doPowerup(current_powerup, snakeLength)
+                    apple2 = True
+                    if snakeLength == 0:
+                        gameOver = True
+
+            # If either one is eaten, reset   
+            if apple or apple2:
+                # If apple was the one eaten, reset apple2
+                if apple :
+                    randDoubleAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+                    randDoubleAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+                # If apple2 was the one eaten, reset apple
+                if apple2:
+                    randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+                    randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+                    
+                current_powerup = None
+                apple = False
+                apple2 = False
+                
+        # Any other powerups
+        else:
+            # If apple eaten
+            if randAppleX < lead_x < randAppleX + appleThickness or lead_x + BLOCK_SIZE > randAppleX and lead_x + BLOCK_SIZE < randAppleX + appleThickness:
+                if randAppleY < lead_y < randAppleY + appleThickness or lead_y + BLOCK_SIZE > randAppleY and lead_y + BLOCK_SIZE < randAppleY + appleThickness:
+                    randAppleX = random.randrange(0, DISPLAY_WIDTH - BLOCK_SIZE, BLOCK_SIZE)
+                    randAppleY = random.randrange(0, DISPLAY_HEIGHT - BLOCK_SIZE, BLOCK_SIZE)
+                    snakeLength = doPowerup(current_powerup, snakeLength)
+                    if snakeLength == 0:
+                        gameOver = True
+                    else:
+                        current_powerup = None
 
         clock.tick(FPS)
+
+        
+    score = snakeLength
     return score
 
+add_powerup("double")
+add_powerup("golden")
+add_powerup("slice")
+add_powerup("bad")
+singleplayer("easy")
 
