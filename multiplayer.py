@@ -82,9 +82,6 @@ def gameLoop(gamerunvalue, gameDisplay):
         snake_1_head_x += lead_dx_1
         snake_1_head_y += lead_dy_1
 
-        snake_2_head_x += lead_dx_2
-        snake_2_head_y += lead_dy_2
-
         gameDisplay.fill(WHITE)
 
         appleThickness = 30
@@ -96,11 +93,11 @@ def gameLoop(gamerunvalue, gameDisplay):
         for xy in snakelist2:
             pygame.draw.rect(gameDisplay, BLUE, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
             
-        for xy in snakelist1[1:]:
+        for xy in snakelist1:
             if snake_2_head == xy:
                 gameOver = True
 
-        for xy in snakelist2[1:]:
+        for xy in snakelist2:
             if snake_1_head == xy:
                 gameOver = True
 
