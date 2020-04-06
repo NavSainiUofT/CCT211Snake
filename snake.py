@@ -133,3 +133,5 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
 
         clock.tick(FPS)
     return score
+
+
