@@ -170,7 +170,7 @@ def gameLoop(gamerunvalue, gameDisplay):
         else:
             winnerScore = snake_1_length
             
-    if tkinter.messagebox.askyesno(title=winner , message= ("Score is "+ str(winnerScore)+"\n Do You Want to Replay")):
+    if tkinter.messagebox.askyesno(title=winner , message= ("Score is "+ str(winnerScore)+"\nDo You Want to Replay")):
         pygame.init()
         gameDisplay = pygame.display.set_mode((800,600))
         pygame.display.set_caption("Snake")

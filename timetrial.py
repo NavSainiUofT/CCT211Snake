@@ -144,7 +144,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
 
         clock.tick(FPS)
         
-    if   tkinter.messagebox.askyesno(title="GameOver", message= ("You Scored " + str(snakeLength) +"\n Do You Want to Replay")):
+    if tkinter.messagebox.askyesno(title="GameOver", message= ("You Scored " + str(snakeLength) +"\n Do You Want to Replay")):
         singleplayer(DIFF, alloted_time)
     else:
         pygame.quit()
@@ -174,8 +174,8 @@ for i in range(len(high_scores)):
 
 
 # this resets the scores
-# pickle_out = open("score.pickle", "wb")
-# pickle.dump([1, 1, 1], pickle_out)
-# pickle_out.close()
+pickle_out = open("score.pickle", "wb")
+pickle.dump([1, 1, 1], pickle_out)
+pickle_out.close()
 
 # print("New highscore!:" + str(score))

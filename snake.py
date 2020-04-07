@@ -2,6 +2,7 @@ import time, random
 import pygame
 import tkinter 
 import tkinter.messagebox
+import pickle
 # DEFAULT VALUES
 BLOCK_SIZE = 20
 FPS = 15
@@ -323,15 +324,54 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                         current_powerup = None
 
         clock.tick(FPS)
-        
-    if   tkinter.messagebox.askyesno(title="You Died", message= ("You Scored" + str(snakeLength) +"\n Do You Want to Replay")):
-        singleplayer(DIFF)
-    else:
-        pygame.quit()
+
+    ###resets the highscores
+
+    pickle_out = open("score.pickle", "wb")
+    pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "YOU AINT GONNA SURVIVE":[0,0,0]}, pickle_out)
+    pickle_out.close()
+
+    ###
+    
+    # top scores arranged = > [0, 0, 0]
+    pickle_in = open("score.pickle", 'rb')
+    high_scores = pickle.load(pickle_in)
+    print(high_scores)
+    print(DIFF.upper())
+    new_hs = False  # checks to see if a highscore has been replaced
+    for key in high_scores.keys():
+        if DIFF.upper() == key:
+            for value in range(len(high_scores[key])):
+                if snakeLength > high_scores[key][value]:
+                    high_scores[key][value] = snakeLength
+                    place = value
+                    new_hs = True
+                    break      
+    print(high_scores)
+
+    pickle_out = open("score.pickle", 'wb')
+    pickle.dump(high_scores, pickle_out)
+    pickle_out.close()
+                
+        #while flag:
+           # if score > high_scores[i]:  # change the highscore if at index the score is changed
+           #     print(score)
+             #   flag = False
+
+    if new_hs:
+        if tkinter.messagebox.askyesno(title="New Highscore", message= ("You Scored " + str(snakeLength) +"\nPlacing you #"+str(place+1)+" on the leaderbords\nDo You Want to Replay?")):
+            new_hs = False
+            singleplayer(DIFF)
+        else:
+            pygame.quit()   
+    else:    
+        if tkinter.messagebox.askyesno(title="You Died", message= ("You Scored " + str(snakeLength) +"\nDo You Want to Replay?")):
+            singleplayer(DIFF)
+        else:
+            pygame.quit()
     
     score = snakeLength
     return score
-
 add_powerup("double")
 add_powerup("golden")
 add_powerup("slice")
