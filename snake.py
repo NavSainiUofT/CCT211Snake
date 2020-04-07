@@ -330,5 +330,5 @@ add_powerup("double")
 add_powerup("golden")
 add_powerup("slice")
 add_powerup("bad")
-singleplayer("easy")
+#singleplayer("easy")
 

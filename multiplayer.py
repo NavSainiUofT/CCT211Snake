@@ -12,7 +12,7 @@ BLUE = (0, 0, 255)
 
 clock = pygame.time.Clock()
 
-
+winning_snake = ''
 def gameLoop(gamerunvalue, gameDisplay):
     gameOver = gamerunvalue
 
@@ -81,6 +81,9 @@ def gameLoop(gamerunvalue, gameDisplay):
 
         snake_1_head_x += lead_dx_1
         snake_1_head_y += lead_dy_1
+        
+        snake_2_head_x += lead_dx_2
+        snake_2_head_y += lead_dy_2
 
         gameDisplay.fill(WHITE)
 
@@ -95,10 +98,12 @@ def gameLoop(gamerunvalue, gameDisplay):
             
         for xy in snakelist1:
             if snake_2_head == xy:
+                winning_snake = 'snake 1'
                 gameOver = True
 
         for xy in snakelist2:
             if snake_1_head == xy:
+                winning_snake = 'snake 2'
                 gameOver = True
 
         if snake_1_head_x >= DISPLAY_WIDTH or snake_1_head_x < 0 or snake_1_head_y >= DISPLAY_HEIGHT or snake_1_head_y < 0:
@@ -135,6 +140,7 @@ def gameLoop(gamerunvalue, gameDisplay):
 
         for eachSegment in snakelist2[:-1]:
             if eachSegment == snake_2_head:
+                
                 gameOver = True
 
         if randAppleX < snake_1_head_x < randAppleX + appleThickness or snake_1_head_x + BLOCK_SIZE > randAppleX and snake_1_head_x + BLOCK_SIZE < randAppleX + appleThickness:
@@ -156,7 +162,4 @@ def gameLoop(gamerunvalue, gameDisplay):
 
 DISPLAY_WIDTH = 800
 DISPLAY_HEIGHT = 600
-pygame.init()
-gameDisplay = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
-pygame.display.set_caption("Snake")
-gameLoop(False, gameDisplay)
+
