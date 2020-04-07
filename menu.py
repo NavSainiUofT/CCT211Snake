@@ -73,9 +73,15 @@ class Menu:
             
             self.button_SP.config(bg="aqua")
             self.button_MP.config(bg="white")
-        else:
+            self.button_TT.config(bg="white")
+        elif player== "multi":
             self.button_SP.config(bg="white")
             self.button_MP.config(bg="aqua")
+            self.button_TT.config(bg="white")
+        else:
+            self.button_SP.config(bg="white")
+            self.button_MP.config(bg="white")
+            self.button_TT.config(bg="aqua")
         print(self.players)
         return
 
