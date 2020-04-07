@@ -110,15 +110,54 @@ class Menu:
             self.button_WM.config(bg="aqua")
             self.button_DM.config(bg="white")
             self.button_MM.config(bg="white")
+            
+            snake.BACKGROUND = (255,255,255)
+            snake.SNAKE1 = (0, 155, 0)
+            snake.APPLE = (255, 0, 0)
+
+            multiplayer.BACKGROUND = (255,255,255)
+            multiplayer.SNAKE1 = (0, 155, 0)
+            multiplayer.APPLE = (255, 0, 0)
+
+            timetrial.BACKGROUND = (255,255,255)
+            timetrial.SNAKE1 = (0, 155, 0)
+            timetrial.APPLE = (255, 0, 0)
         if loc == "dark":
             self.button_WM.config(bg="white")
             self.button_DM.config(bg="aqua")
             self.button_MM.config(bg="white")
+
+            snake.BACKGROUND = (0,0,0)
+            snake.SNAKE1 = (0, 155, 0)
+            snake.APPLE = (255, 0, 0)
+            
+            multiplayer.BACKGROUND = (0,0,0)
+            multiplayer.SNAKE1 = (0, 155, 0)
+            multiplayer.APPLE = (255, 0, 0)
+
+            timetrial.BACKGROUND = (0,0,0)
+            timetrial.SNAKE1 = (0, 155, 0)
+            timetrial.APPLE = (255, 0, 0)
+            
         if loc == "miami":
             self.button_WM.config(bg="white")
             self.button_DM.config(bg="white")
             self.button_MM.config(bg="aqua")
 
+            snake.BACKGROUND = (0,0,0)
+            snake.SNAKE1 = (39,253,245)
+            snake.APPLE = (247,101,184)
+
+            timetrial.BACKGROUND = (0,0,0)
+            timetrial.SNAKE1 = (39,253,245)
+            timetrial.APPLE = (247,101,184)
+            
+            multiplayer.BACKGROUND = (0,0,0)
+            multiplayer.SNAKE1 = (39,253,245)
+            multiplayer.APPLE = (247,101,184)
+
+            
+    
 
 
     def play(self):
@@ -132,7 +171,7 @@ class Menu:
             multiplayer.gameLoop(False, gameDisplay)
 
         else:
-            timetrial.singleplayer(self.difficulty, 30)
+            timetrial.singleplayer(self.difficulty, 5)
             
             
         
@@ -144,7 +183,7 @@ class Menu:
         else:
             ind = 0
         self.label.configure(image=self.frame)
-        root.after(300, self.update, ind)
+        root.after(200, self.update, ind)
         
             
             

@@ -1,16 +1,17 @@
 import time, random
 import pygame
 import pickle
-
+import tkinter 
+import tkinter.messagebox
 # DEFAULT VALUES
 BLOCK_SIZE = 20
 FPS = 15
-
+DIFF = "easy"
 # COLOURS
-WHITE = (255, 255, 255)
+BACKGROUND = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 155, 0)
+APPLE = (255, 0, 0)
+SNAKE1 = (0, 155, 0)
 
 # CLOCK
 clock = pygame.time.Clock()
@@ -28,7 +29,8 @@ def singleplayer(difficulty: str, alloted_time: int):
     :return:
     """
     global FPS
-
+    global DIFF
+    DIFF = difficulty
     if difficulty is "easy":
         FPS = 15
     elif difficulty is "medium":
@@ -105,10 +107,10 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
                 lead_y < 0:
             gameOver = True
 
-        gameDisplay.fill(WHITE)
+        gameDisplay.fill(BACKGROUND)
 
         appleThickness = 30
-        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+        pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                             appleThickness, appleThickness])
 
         # store the position of the front of the snake in an empty list
@@ -130,7 +132,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
                 gameOver = True
 
         for xy in snakeList:
-            pygame.draw.rect(gameDisplay, GREEN, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
+            pygame.draw.rect(gameDisplay, SNAKE1, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
 
         pygame.display.update()
         if randAppleX < lead_x < randAppleX + appleThickness or lead_x + BLOCK_SIZE > randAppleX and lead_x + BLOCK_SIZE < randAppleX + appleThickness:
@@ -141,6 +143,11 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
                 score += 1
 
         clock.tick(FPS)
+        
+    if   tkinter.messagebox.askyesno(title="GameOver", message= ("You Scored " + str(snakeLength) +"\n Do You Want to Replay")):
+        singleplayer(DIFF, alloted_time)
+    else:
+        pygame.quit()
     return score
 
 

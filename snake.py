@@ -1,15 +1,16 @@
 import time, random
 import pygame
-
+import tkinter 
+import tkinter.messagebox
 # DEFAULT VALUES
 BLOCK_SIZE = 20
 FPS = 15
-
+DIFF = "easy"
 # COLOURS
-WHITE = (255, 255, 255)
+BACKGROUND = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 155, 0)
+APPLE = (255, 0, 0)
+SNAKE1 = (0, 155, 0)
 PURPLE = (138,43,226)
 SILVER = (192,192,192)
 GOLD = (255,255,0)
@@ -64,7 +65,8 @@ def singleplayer(difficulty: str):
     :return:
     """
     global FPS
-
+    global DIFF
+    DIFF = difficulty
     if difficulty is "easy":
         FPS = 15
     elif difficulty is "medium":
@@ -145,7 +147,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                 lead_y < 0:
             gameOver = True
 
-        gameDisplay.fill(WHITE)
+        gameDisplay.fill(BACKGROUND)
 
         # POWERUP SPAWN IN --------------------------------------------------------------
         if current_powerup is None:
@@ -153,19 +155,19 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
             if random_powerup == "normal":
                 current_powerup = "normal"
                 appleThickness = 30
-                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
             elif random_powerup is "bad":
                 current_powerup = "bad"
                 appleThickness = 30
-                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
                 pygame.draw.rect(gameDisplay, PURPLE, [randDoubleAppleX, randDoubleAppleY,
                                                     appleThickness, appleThickness])
             elif random_powerup is "slice":
                 current_powerup = "slice"
                 appleThickness = 30
-                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
                 pygame.draw.rect(gameDisplay, SILVER, [randDoubleAppleX, randDoubleAppleY,
                                                     appleThickness, appleThickness])
@@ -177,21 +179,21 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
             elif random_powerup is "double":
                 current_powerup = "double"
                 appleThickness = 30
-                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
-                pygame.draw.rect(gameDisplay, RED, [randDoubleAppleX, randDoubleAppleY,
+                pygame.draw.rect(gameDisplay, APPLE, [randDoubleAppleX, randDoubleAppleY,
                                                     appleThickness, appleThickness])
 
         # POWERUP CONTINUALLY DISPLAY --------------------------------------------------
         if current_powerup is "normal":
             appleThickness = 30
-            pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+            pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                 appleThickness, appleThickness])
         elif current_powerup is "bad":
             appleThickness = 30
             # If apple still on board
             if not apple:
-                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
             # If apple2 still on board
             if not apple2:
@@ -201,7 +203,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
             appleThickness = 30
             # If apple still on board
             if not apple:
-                pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
             # If apple2 still on board
             if not apple2:
@@ -215,11 +217,11 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                 appleThickness = 30
                 # If apple still on board
                 if not apple:
-                    pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY,
+                    pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                         appleThickness, appleThickness])
                 # If apple2 still on board
                 if not apple2:
-                    pygame.draw.rect(gameDisplay, RED, [randDoubleAppleX, randDoubleAppleY,
+                    pygame.draw.rect(gameDisplay, APPLE, [randDoubleAppleX, randDoubleAppleY,
                                                         appleThickness, appleThickness])
 
         # store the position of the front of the snake in an empty list
@@ -242,7 +244,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                 gameOver = True
 
         for xy in snakeList:
-            pygame.draw.rect(gameDisplay, GREEN, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
+            pygame.draw.rect(gameDisplay, SNAKE1, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
 
         pygame.display.update()
 
@@ -321,8 +323,12 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                         current_powerup = None
 
         clock.tick(FPS)
-
         
+    if   tkinter.messagebox.askyesno(title="You Died", message= ("You Scored" + str(snakeLength) +"\n Do You Want to Replay")):
+        singleplayer(DIFF)
+    else:
+        pygame.quit()
+    
     score = snakeLength
     return score
 

@@ -1,14 +1,16 @@
 import time, random
 import pygame
-
+from tkinter import *
+import tkinter 
+import tkinter.messagebox
 BLOCK_SIZE = 20
 FPS = 15
 
-WHITE = (255, 255, 255)
+BACKGROUND = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 155, 0)
-BLUE = (0, 0, 255)
+APPLE = (255, 0, 0)
+SNAKE1 = (0, 155, 0)
+SNAKE2 = (0, 0, 255)
 
 clock = pygame.time.Clock()
 
@@ -85,16 +87,16 @@ def gameLoop(gamerunvalue, gameDisplay):
         snake_2_head_x += lead_dx_2
         snake_2_head_y += lead_dy_2
 
-        gameDisplay.fill(WHITE)
+        gameDisplay.fill(BACKGROUND)
 
         appleThickness = 30
-        pygame.draw.rect(gameDisplay, RED, [randAppleX, randAppleY, appleThickness, appleThickness])
+        pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY, appleThickness, appleThickness])
 
         for xy in snakelist1:
-            pygame.draw.rect(gameDisplay, GREEN, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
+            pygame.draw.rect(gameDisplay, SNAKE1, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
 
         for xy in snakelist2:
-            pygame.draw.rect(gameDisplay, BLUE, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
+            pygame.draw.rect(gameDisplay,SNAKE2, [xy[0], xy[1], BLOCK_SIZE, BLOCK_SIZE])
             
         for xy in snakelist1:
             if snake_2_head == xy:
@@ -157,6 +159,24 @@ def gameLoop(gamerunvalue, gameDisplay):
                 score += 1
         pygame.display.update()
         clock.tick(FPS)
+        winner= "Tie Game"
+        winnerScore = 0
+        if snake_2_length > snake_1_length:
+            winner = "Blue Snake Win"
+            winnerScore = snake_2_length
+        elif snake_1_length > snake_2_length:
+            winner = "Green Snake Win"
+            winnerScore = snake_1_length
+        else:
+            winnerScore = snake_1_length
+            
+    if tkinter.messagebox.askyesno(title=winner , message= ("Score is "+ str(winnerScore)+"\n Do You Want to Replay")):
+        pygame.init()
+        gameDisplay = pygame.display.set_mode((800,600))
+        pygame.display.set_caption("Snake")
+        gameLoop(False, gameDisplay)
+    else:
+        pygame.quit()
     return score
 
 
