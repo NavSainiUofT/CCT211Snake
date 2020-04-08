@@ -26,26 +26,26 @@ class Menu:
         #self.label_P.place(x=300,y=200,height=50,width=200)
                              
         
-        self.button_SP = Button(master, text="Singleplayer", command = lambda  arg="single": self.choosePlayer(arg))
+        self.button_SP = Button(master, text="Singleplayer", command = lambda  arg="single": self.choosePlayer(arg), width=15, height=2)
         self.button_SP.config(bg="aqua")
         self.button_SP.grid(row=2, column=1)
-        self.button_MP = Button(master, text="Multiplayer", command = lambda arg="multi": self.choosePlayer(arg))
+        self.button_MP = Button(master, text="Multiplayer", command = lambda arg="multi": self.choosePlayer(arg), width=15, height=2)
         self.button_MP.grid(row=2, column=2)
-        self.button_TT = Button(master, text="Time Trial", command = lambda arg="time": self.choosePlayer(arg))
+        self.button_TT = Button(master, text="Time Trial", command = lambda arg="time": self.choosePlayer(arg), width=15, height=2)
         self.button_TT.grid(row=2, column=3)
       
         self.label_L = Label(master, text = "Choose Location")
         self.label_L.config(font=(15), bg = "#4eee94")
         self.label_L.grid(row=3, column=2)
         
-        self.button_WM = Button(master, text="Heaven", command = lambda arg="heaven": self.chooseLocation(arg))
+        self.button_WM = Button(master, text="Heaven", command = lambda arg="heaven": self.chooseLocation(arg), width=15, height=2)
         self.button_WM.config(bg="aqua")
         self.button_WM.grid(row=4, column=1)
 
-        self.button_DM = Button(master, text="Darkness", command = lambda arg="dark": self.chooseLocation(arg))
+        self.button_DM = Button(master, text="Darkness", command = lambda arg="dark": self.chooseLocation(arg), width=15, height=2)
         self.button_DM.grid(row=4, column=2)
 
-        self.button_MM = Button(master, text="Hotline Miami", command = lambda arg="miami": self.chooseLocation(arg))
+        self.button_MM = Button(master, text="Hotline Miami", command = lambda arg="miami": self.chooseLocation(arg), width=15, height=2)
         self.button_MM.grid(row=4, column=3)
 
         self.label_L = Label(master, text = "Choose Difficulty")
@@ -53,34 +53,35 @@ class Menu:
         self.label_L.grid(row=5, column=2)
 
 
-        self.frame = Frame(master)
-        self.frame.grid(row=6, columnspan=4)
+        self.frame = Frame(master, bg="#4eee94")
+        self.frame.grid(row=6, columnspan=4, sticky="nsew")
         self.frame.columnconfigure(0, weight=1)
         self.frame.columnconfigure(1, weight=1)
-        self.frame.columnconfigure(2, weight=2)
-        self.frame.columnconfigure(3, weight=2)
+        self.frame.columnconfigure(2, weight=1)
+        self.frame.columnconfigure(3, weight=1)
+        self.frame.columnconfigure(4, weight=1)
         self.frame.rowconfigure(0, weight=1)
         self.frame.rowconfigure(1, weight=1)
         self.frame.rowconfigure(2, weight=1)
         
         
-        self.button_easy = Button(self.frame, text="Easy", command = lambda  arg="easy": self.chooseDifficulty(arg))
+        self.button_easy = Button(self.frame, text="Easy", command = lambda  arg="easy": self.chooseDifficulty(arg), width=15, height=2)
         self.button_easy.config(bg="aqua")
         self.button_easy.grid(row=0, column=1)
 
-        self.button_medium = Button(self.frame, text="Medium",command = lambda  arg="medium": self.chooseDifficulty(arg), width=15)
+        self.button_medium = Button(self.frame, text="Medium",command = lambda  arg="medium": self.chooseDifficulty(arg), width=15, height=2)
         self.button_medium.grid(row=0, column=2)
 
-        self.button_hard = Button(self.frame, text="Hard", command = lambda  arg="hard": self.chooseDifficulty(arg))
+        self.button_hard = Button(self.frame, text="Hard", command = lambda  arg="hard": self.chooseDifficulty(arg), width=15, height=2)
         self.button_hard.grid(row=0, column=3)
 
-        self.button_die = Button(self.frame, text="Nightmare", command = lambda  arg="nightmare": self.chooseDifficulty(arg))
+        self.button_die = Button(self.frame, text="Nightmare", command = lambda  arg="nightmare": self.chooseDifficulty(arg), width=15, height=2)
         self.button_die.grid(row=0, column=4)
 
-        self.button_play = Button(master, text="PLAY", font=20, command = self.play)
-        self.button_play.grid(row=8, column=2)
+        self.button_play = Button(master, text="PLAY", font=20, command = self.play, height=1)
+        self.button_play.grid(row=8, column=2, sticky="nsew")
         
-        self.button_leaderboard = Button(master, text="Leaderboard", command = self.show_highscores)
+        self.button_leaderboard = Button(master, text="Leaderboard", command = self.show_highscores, width=15, height=2)
         self.button_leaderboard.grid(row=0, column=1)
 
         
@@ -236,6 +237,7 @@ root.rowconfigure(5, weight=1)
 root.rowconfigure(6, weight=1)
 root.rowconfigure(7, weight=1)
 root.rowconfigure(8, weight=1)
+root.rowconfigure(9, weight=1)
 root.columnconfigure(0, weight=1)
 root.columnconfigure(1, weight=1)
 root.columnconfigure(2, weight=1)
