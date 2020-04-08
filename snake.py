@@ -3,6 +3,7 @@ import pygame
 import tkinter 
 import tkinter.messagebox
 import pickle
+import os 
 # DEFAULT VALUES
 BLOCK_SIZE = 20
 FPS = 15
@@ -68,13 +69,13 @@ def singleplayer(difficulty: str):
     global FPS
     global DIFF
     DIFF = difficulty
-    if difficulty is "easy":
+    if difficulty == "easy":
         FPS = 15
-    elif difficulty is "medium":
+    elif difficulty == "medium":
         FPS = 25
-    elif difficulty is "hard":
+    elif difficulty == "hard":
         FPS = 40
-    else: # difficulty is nightmare
+    elif difficulty == "nightmare": # difficulty is nightmare
         FPS = 60
 
     pygame.init()
@@ -158,26 +159,26 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                 appleThickness = 30
                 pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
-            elif random_powerup is "bad":
+            elif random_powerup == "bad":
                 current_powerup = "bad"
                 appleThickness = 30
                 pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
                 pygame.draw.rect(gameDisplay, PURPLE, [randDoubleAppleX, randDoubleAppleY,
                                                     appleThickness, appleThickness])
-            elif random_powerup is "slice":
+            elif random_powerup == "slice":
                 current_powerup = "slice"
                 appleThickness = 30
                 pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
                 pygame.draw.rect(gameDisplay, SILVER, [randDoubleAppleX, randDoubleAppleY,
                                                     appleThickness, appleThickness])
-            elif random_powerup is "golden":
+            elif random_powerup == "golden":
                 current_powerup = "golden"
                 appleThickness = 30
                 pygame.draw.rect(gameDisplay, GOLD, [randAppleX, randAppleY,
                                                     appleThickness, appleThickness])
-            elif random_powerup is "double":
+            elif random_powerup == "double":
                 current_powerup = "double"
                 appleThickness = 30
                 pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
@@ -186,11 +187,11 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                                                     appleThickness, appleThickness])
 
         # POWERUP CONTINUALLY DISPLAY --------------------------------------------------
-        if current_powerup is "normal":
+        if current_powerup == "normal":
             appleThickness = 30
             pygame.draw.rect(gameDisplay, APPLE, [randAppleX, randAppleY,
                                                 appleThickness, appleThickness])
-        elif current_powerup is "bad":
+        elif current_powerup == "bad":
             appleThickness = 30
             # If apple still on board
             if not apple:
@@ -200,7 +201,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
             if not apple2:
                 pygame.draw.rect(gameDisplay, PURPLE, [randDoubleAppleX, randDoubleAppleY,
                                                     appleThickness, appleThickness])
-        elif current_powerup is "slice":
+        elif current_powerup == "slice":
             appleThickness = 30
             # If apple still on board
             if not apple:
@@ -210,11 +211,11 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
             if not apple2:
                 pygame.draw.rect(gameDisplay, SILVER, [randDoubleAppleX, randDoubleAppleY,
                                                     appleThickness, appleThickness])
-        elif current_powerup is "golden":
+        elif current_powerup == "golden":
             appleThickness = 30
             pygame.draw.rect(gameDisplay, GOLD, [randAppleX, randAppleY,
                                                 appleThickness, appleThickness])
-        elif current_powerup is "double":
+        elif current_powerup == "double":
                 appleThickness = 30
                 # If apple still on board
                 if not apple:
@@ -327,37 +328,38 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
 
     ###resets the highscores
 
-    pickle_out = open("score.pickle", "wb")
-    pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "YOU AINT GONNA SURVIVE":[0,0,0]}, pickle_out)
-    pickle_out.close()
+    #pickle_out = open("score.pickle", "wb")
+    #pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "YOU AINT GONNA SURVIVE":[0,0,0]}, pickle_out)
+    #pickle_out.close()
 
-    ###
-    
-    # top scores arranged = > [0, 0, 0]
-    pickle_in = open("score.pickle", 'rb')
-    high_scores = pickle.load(pickle_in)
-    print(high_scores)
-    print(DIFF.upper())
-    new_hs = False  # checks to see if a highscore has been replaced
-    for key in high_scores.keys():
-        if DIFF.upper() == key:
-            for value in range(len(high_scores[key])):
-                if snakeLength > high_scores[key][value]:
-                    high_scores[key][value] = snakeLength
-                    place = value
-                    new_hs = True
-                    break      
+    # Check if score.p exists already
+    if os.path.isfile('score.p'):
+        # Load high_scores with existing dict
+        with open("score.p", "rb") as f:
+            high_scores = pickle.load(f)
+            new_hs = False  # checks to see if a highscore has been replaced
+            for key in high_scores.keys():
+                if DIFF.upper() == key:
+                    for value in range(len(high_scores[key])):
+                        if snakeLength > high_scores[key][value]:
+                            high_scores[key].insert(value, snakeLength)
+                            high_scores[key].pop()
+                            #high_scores[key][value] = snakeLength
+                            place = value
+                            new_hs = True
+                            break    
+    # Score.p doesn't exist
+    else:
+        # Default with empty dict
+        with open("score.p","wb") as out:
+            pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "NIGHTMARE":[0,0,0]}, out)
+
     print(high_scores)
 
-    pickle_out = open("score.pickle", 'wb')
+    pickle_out = open("score.p", 'wb')
     pickle.dump(high_scores, pickle_out)
     pickle_out.close()
                 
-        #while flag:
-           # if score > high_scores[i]:  # change the highscore if at index the score is changed
-           #     print(score)
-             #   flag = False
-
     if new_hs:
         if tkinter.messagebox.askyesno(title="New Highscore", message= ("You Scored " + str(snakeLength) +"\nPlacing you #"+str(place+1)+" on the leaderbords\nDo You Want to Replay?")):
             new_hs = False
