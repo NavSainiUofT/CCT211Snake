@@ -23,11 +23,11 @@ class Menu:
         self.label_P = Label(master, text = "Choose Player")
         self.label_P.config(font=(15), bg = "#4eee94")
         self.label_P.grid(row=1, column=2)
-        #self.label_P.place(x=300,y=200,height=50,width=200)
-                             
-        
+
         self.button_SP = Button(master, text="Singleplayer", command = lambda  arg="single": self.choosePlayer(arg), width=15, height=2)
         self.button_SP.config(bg="aqua")
+        self.button_Help = Button(master, text="Help", command= self.help_menu,width=15, height=2)
+        self.button_Help.grid(row = 0, column = 3)
         self.button_SP.grid(row=2, column=1)
         self.button_MP = Button(master, text="Multiplayer", command = lambda arg="multi": self.choosePlayer(arg), width=15, height=2)
         self.button_MP.grid(row=2, column=2)
@@ -208,7 +208,12 @@ class Menu:
             ind = 0
         self.label.configure(image=self.frame)
         root.after(200, self.update, ind)
-
+    def help_menu(self):
+        tkinter.messagebox.showinfo(title="Instruction",
+                                    message="Select your game mode then your difficulty then your colour scheme\n"
+                                            "Red: Normal Apple\nGold: Double Apple\nPurple: Poison Apple\nArrow"
+                                            "keys for single player arrow keys and WASD for Multiplayer\nTimed Trial "
+                                            "lasts 30 seconds")
     def show_highscores(self):
         
         if os.path.isfile('score.p'):

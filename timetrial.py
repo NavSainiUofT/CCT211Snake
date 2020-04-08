@@ -174,12 +174,12 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
     if new_hs:
         if tkinter.messagebox.askyesno(title="New Highscore", message= ("You Scored " + str(snakeLength) +"\nPlacing you #"+str(place+1)+" on the leaderbords\nDo You Want to Replay?")):
             new_hs = False
-            singleplayer(DIFF)
+            singleplayer(DIFF,alloted_time)
         else:
             pygame.quit()   
     else:    
         if tkinter.messagebox.askyesno(title="You Died", message= ("You Scored " + str(snakeLength) +"\nDo You Want to Replay?")):
-            singleplayer(DIFF)
+            singleplayer(DIFF,alloted_time)
         else:
             pygame.quit()
     
