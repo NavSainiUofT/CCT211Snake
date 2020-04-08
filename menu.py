@@ -210,20 +210,32 @@ class Menu:
         root.after(200, self.update, ind)
 
     def show_highscores(self):
+        
         if os.path.isfile('score.p'):
             # Load high_scores with existing dict
             with open("score.p", "rb") as f:
-                high_scores = pickle.load(f)  
-        # Score.p doesn't exist
+                high_scores = pickle.load(f)
         else:
             # Default with empty dict
             with open("score.p","wb") as out:
                 pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "NIGHTMARE":[0,0,0]}, out)
 
-        with open("score.p", "rb") as f:
+        if os.path.isfile('time_score.p'):
+            # Load time_scores with existing dict
+            with open("time_score.p", "rb") as f:
+                time_scores = pickle.load(f)
+        else:
+            # Default with empty dict
+            with open("time_score.p","wb") as out:
+                pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "NIGHTMARE":[0,0,0]}, out)
+                # Score.p doesn't exist
+
+        with open("score.p", "rb") as f, open("time_score.p", "rb") as t:
             high_scores = pickle.load(f)
-            string = "EASY: " + str(high_scores["EASY"]) + "\n" + "MEDIUM: " + str(high_scores["MEDIUM"]) + "\n" + "HARD: " + str(high_scores["HARD"]) + "\n" + "NIGHTMARE: " + str(high_scores["NIGHTMARE"])
-            tkinter.messagebox.Message(title="Leaderboards", message=string)    
+            time_scores = pickle.load(t)
+            score_string = "EASY: " + str(high_scores["EASY"]) + "\n" + "MEDIUM: " + str(high_scores["MEDIUM"]) + "\n" + "HARD: " + str(high_scores["HARD"]) + "\n" + "NIGHTMARE: " + str(high_scores["NIGHTMARE"])
+            time_string = "EASY: " + str(time_scores["EASY"]) + "\n" + "MEDIUM: " + str(time_scores["MEDIUM"]) + "\n" + "HARD: " + str(time_scores["HARD"]) + "\n" + "NIGHTMARE: " + str(time_scores["NIGHTMARE"])
+            tkinter.messagebox.showinfo(title="Leaderboards", message="Single Player Scores:\n" + score_string + "\n\n" +"Time Trial Scores:\n"+ time_string)    
         
 
 root = Tk()

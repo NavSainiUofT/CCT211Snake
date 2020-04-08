@@ -3,6 +3,7 @@ import pygame
 import pickle
 import tkinter 
 import tkinter.messagebox
+import os
 # DEFAULT VALUES
 BLOCK_SIZE = 20
 FPS = 15
@@ -144,38 +145,47 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
 
         clock.tick(FPS)
         
-    if tkinter.messagebox.askyesno(title="GameOver", message= ("You Scored " + str(snakeLength) +"\n Do You Want to Replay")):
-        singleplayer(DIFF, alloted_time)
+# Check if score.p exists already
+    if os.path.isfile('time_score.p'):
+        # Load high_scores with existing dict
+        with open("time_score.p", "rb") as f:
+            high_scores = pickle.load(f)
+            new_hs = False  # checks to see if a highscore has been replaced
+            for key in high_scores.keys():
+                if DIFF.upper() == key:
+                    for value in range(len(high_scores[key])):
+                        if snakeLength > high_scores[key][value]:
+                            high_scores[key].insert(value, snakeLength)
+                            high_scores[key].pop()
+                            #high_scores[key][value] = snakeLength
+                            place = value
+                            new_hs = True
+                            break    
+    # Score.p doesn't exist
     else:
-        pygame.quit()
+        # Default with empty dict
+        with open("time_score.p","wb") as out:
+            pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "NIGHTMARE":[0,0,0]}, out)
+
+    pickle_out = open("time_score.p", 'wb')
+    pickle.dump(high_scores, pickle_out)
+    pickle_out.close()
+                
+    if new_hs:
+        if tkinter.messagebox.askyesno(title="New Highscore", message= ("You Scored " + str(snakeLength) +"\nPlacing you #"+str(place+1)+" on the leaderbords\nDo You Want to Replay?")):
+            new_hs = False
+            singleplayer(DIFF)
+        else:
+            pygame.quit()   
+    else:    
+        if tkinter.messagebox.askyesno(title="You Died", message= ("You Scored " + str(snakeLength) +"\nDo You Want to Replay?")):
+            singleplayer(DIFF)
+        else:
+            pygame.quit()
+    
+    score = snakeLength
     return score
 
 
-alloted_time = 5  # variable that changes based on the time trial selected
 
-
-# top scores arranged = > [1, 1, 1]
-"""
-pickle_in = open("score.pickle", 'rb')
-high_scores = pickle.load(pickle_in)
-print(high_scores)
-
-flag = True  # checks to see if the a score has been replaced, after 1 change disregard the for loop
-for i in range(len(high_scores)):
-    while flag:
-        if score > high_scores[i]:  # change the highscore if at index the score is changed
-            print(score)
-            flag = False
-"""
-# sets the new highscore
-# pickle_out = open("score.pickle", "wb")
-# pickle.dump(high_scores, pickle_out)
-# pickle_out.close()
-
-
-# this resets the scores
-pickle_out = open("score.pickle", "wb")
-pickle.dump([1, 1, 1], pickle_out)
-pickle_out.close()
-
-# print("New highscore!:" + str(score))
+alloted_time = 30  # variable that changes based on the time trial selected
