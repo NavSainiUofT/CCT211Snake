@@ -68,7 +68,6 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
     snakeLength = 1
     score = 1
     start_time = time.time()  # init a start time
-    duration = 0
 
     while gameOver is not True:
 

@@ -354,7 +354,6 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
         with open("score.p","wb") as out:
             pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "NIGHTMARE":[0,0,0]}, out)
 
-    print(high_scores)
 
     pickle_out = open("score.p", 'wb')
     pickle.dump(high_scores, pickle_out)

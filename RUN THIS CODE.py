@@ -195,7 +195,7 @@ class Menu:
             multiplayer.gameLoop(False, gameDisplay)
 
         else:
-            timetrial.singleplayer(self.difficulty, 5)
+            timetrial.singleplayer(self.difficulty, 30)
             
             
         
