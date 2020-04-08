@@ -145,6 +145,8 @@ def gameLoop(gamerunvalue: bool, gameDisplay, alloted_time) -> int:
         clock.tick(FPS)
         
 # Check if score.p exists already
+    high_scores = {"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "NIGHTMARE":[0,0,0]}
+    new_hs = 0
     if os.path.isfile('time_score.p'):
         # Load high_scores with existing dict
         with open("time_score.p", "rb") as f:
