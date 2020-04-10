@@ -331,6 +331,7 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
     #pickle_out = open("score.pickle", "wb")
     #pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "YOU AINT GONNA SURVIVE":[0,0,0]}, pickle_out)
     #pickle_out.close()
+    new_hs = False
 
     # Check if score.p exists already
     if os.path.isfile('score.p'):
@@ -347,17 +348,19 @@ def gameLoop(gamerunvalue: bool, gameDisplay) -> int:
                             #high_scores[key][value] = snakeLength
                             place = value
                             new_hs = True
-                            break    
+                            break
+        with open("score.p", 'wb') as pickle_out:
+            pickle.dump(high_scores, pickle_out)
+    
     # Score.p doesn't exist
     else:
         # Default with empty dict
         with open("score.p","wb") as out:
             pickle.dump({"EASY":[0,0,0], "MEDIUM": [0,0,0], "HARD": [0,0,0], "NIGHTMARE":[0,0,0]}, out)
 
+   
 
-    pickle_out = open("score.p", 'wb')
-    pickle.dump(high_scores, pickle_out)
-    pickle_out.close()
+
                 
     if new_hs:
         if tkinter.messagebox.askyesno(title="New Highscore", message= ("You Scored " + str(snakeLength) +"\nPlacing you #"+str(place+1)+" on the leaderbords\nDo You Want to Replay?")):
